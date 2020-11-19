@@ -8,7 +8,7 @@
 
 #import <React/RCTViewManager.h>
 #import <React/RCTEventDispatcher.h>
-#import <UIView+React.h>
+#import "UIView+React.h"
 #import "MKTouchable.h"
 
 @interface MKTouchableManager : RCTViewManager <MKTouchableDelegate>
@@ -56,7 +56,7 @@ RCT_EXPORT_MODULE()
                            @"x": [NSNumber numberWithFloat:location.x],
                            @"y": [NSNumber numberWithFloat:location.y],
                            };
-    [self.bridge.eventDispatcher sendInputEventWithName:@"topChange" body:dict];
+    [self.bridge enqueueJSCall:@"RCTEventEmitter" method:@"receiveEvent" args:@[dict[@"target"], RCTNormalizeInputEventName(@"topChange"), dict] completion:NULL];;
 }
 
 @end
